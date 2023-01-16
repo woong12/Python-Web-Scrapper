@@ -4,7 +4,11 @@ player = {
     'name': 'kim',
     'age': 12,
     'alive': True,
-    'fav_food': ["🍞", "🌮"]
+    'fav_food': ["🍞", "🌮"],
+    'friend': {
+        'name': 'park',
+        'fav_food': ['🍔']
+    }
 }
 
 print(player)
@@ -27,3 +31,8 @@ print(player)
 player['fav_food'].append('🍕')
 print(player.get('fav_food'))
 print(player['fav_food'])
+
+print(player['friend']['fav_food'])
+
+player['fav_food'] = '🌭'
+print(player)
