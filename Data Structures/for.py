@@ -1,11 +1,11 @@
 from requests import get 
 
 websites = (
-    "https://google.com",
+    "google.com",
     "airbnb.com",
-    "twitter.com",
-    "https://facebook.com",
-    "https://tictok.com",
+    "https://twitter.com",
+    "facebook.com",
+    "https://tiktok.com",
 )
 
 results = {}
