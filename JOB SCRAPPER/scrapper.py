@@ -1,5 +1,5 @@
 # from requests import get
-# from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 # from extractors.wwr import extract_wwr_jobs
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -12,26 +12,17 @@ browser = webdriver.Chrome(options=options)
 
 browser.get("https://kr.indeed.com/jobs?q=python&limit=50")
 
-print(browser.page_source)
+soup = BeautifulSoup(browser.page_source, "html.parser")
+job_list = soup.find("ul", class_="jobsearch-ResultsList")
+
+jobs = job_list.find_all('li', recursive=False)
+
+for job in jobs:
+    zone = job.find("div", class_="mosaic-zone")
+    if zone == None:
+        print("job li")
+    else:
+        print("mosaic li")
 
 while (True):
     pass
-"""
-jobs = extract_wwr_jobs("python")
-
-base_url = "https://kr.indeed.com/jobs?q="
-search_terms = "python"
-
-response = get(f"{base_url}{search_terms}")
-
-if response.status_code != 200:
-    # 현재 indeed에서 스크래핑 막음
-    print("Cant request page")
-else:
-    soup = BeautifulSoup(response.text, "html.parser")
-    job_list = soup.find("ul", class_="jobsearch-ResultsList")
-    jobs = job_list.find_all('li', recursive=False)
-    for job in jobs:
-        print(job)
-        print("//////")
-"""
