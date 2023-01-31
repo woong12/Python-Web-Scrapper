@@ -10,19 +10,34 @@ options.add_argument("--disable-dev-shm-usage")
 
 browser = webdriver.Chrome(options=options)
 
+#print(browser.page_source)
+base_url = "https://www.indeed.com/jobs?q="
+search_term = "python"
+
 browser.get("https://kr.indeed.com/jobs?q=python&limit=50")
 
+browser.get(f"{base_url}{search_term}")
+results = []
 soup = BeautifulSoup(browser.page_source, "html.parser")
-job_list = soup.find("ul", class_="jobsearch-ResultsList")
-
-jobs = job_list.find_all('li', recursive=False)
-
+job_list = soup.find('ul', class_= "jobsearch-ResultsList css-0")
+jobs = job_list.find_all('li', recursive = False)
+#ul 바로밑 li만을 찾아낼 것이다
 for job in jobs:
     zone = job.find("div", class_="mosaic-zone")
-    if zone == None:
-        print("job li")
-    else:
-        print("mosaic li")
+    #find는 찾은 element를 주거나 None을 준다
+    if zone == None:#job li에서 job을 추출한다
+        anchor = job.select_one("h2 a")
+        title = anchor['aria-label']
+        link = anchor['href']
+        company = job.find("span",class_="companyName")
+        region = job.find("div",class_="companyLocation")
+        job_data = {
+            'link' : f"https://www.indeed.com{link}",
+            'company' : company.string,
+            'location' : region.string,
+            'position' : title
+        }
+        results.append(job_data)
 
 while (True):
     pass
