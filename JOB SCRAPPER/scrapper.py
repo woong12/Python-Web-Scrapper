@@ -38,6 +38,6 @@ for job in jobs:
             'position' : title
         }
         results.append(job_data)
+for result in results:
+    print(result, "\n//////\n")
 
-while (True):
-    pass
