@@ -1,7 +1,5 @@
-from requests import get
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-# from extractors.wwr import extract_wwr_jobs
 from bs4 import BeautifulSoup
 
 options = webdriver.ChromeOptions()
@@ -50,9 +48,9 @@ def extract_indeed_jobs(keyword):
                 region = job.find("div",class_="companyLocation")
                 job_data = {
                     'link' : f"https://www.indeed.com{link}",
-                    'company' : company.string,
-                    'location' : region.string,
-                    'position' : title
+                    'company' : company.string.replace(",", " "),
+                    'location' : region.string.replace(",", " "),
+                    'position' : title.replace(",", " ")
                 }
                 results.append(job_data)
     return results
